@@ -2,7 +2,7 @@
 
 Lightweight scripts in the cloud
 
-### Warning: Proof of concept made in less than 12 hours!
+### Warning: Proof of concept made in less than 12 hours! Not final form!
 
 This is a Python app to be deployed on Heroku that will let you run Lua
 scripts from Github that run as if they were on
