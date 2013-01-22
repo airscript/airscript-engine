@@ -28,31 +28,23 @@ def _export_globals():
         d[k] = globals()[k]
     return d
 
+def make_table(dict):
+    return lua.eval("""
+function(d)
+    local t = {}
+    for key, value in python.iterex(d.items()) do
+        t[key] = value
+    end
+    return t
+end
+""")(lupa.as_attrgetter(dict))
+
 def run(request, source):
     try:
         app = lua.eval("""
 function(globals)
-    local function _tableize(userdata, deeper)
-        if type(userdata) == "userdata" then
-            local t = {{}}
-            for k,v in python.iterex(userdata.items()) do
-                if type(v) == "userdata" and deeper then
-                    t[k] = _tableize(v, false)
-                else
-                    t[k] = v
-                end
-            end
-            return t
-        else
-            return userdata
-        end
-    end
     for k,v in python.iterex(globals.items()) do
-        if k == "request" then
-            _G[k] = _tableize(v, true)
-        else
-            _G[k] = v
-        end
+        _G[k] = v
     end
     {0}
 end
@@ -80,12 +72,12 @@ def adapt_request(request):
                 table[k] = v
             else:
                 table[k] = filter(v)
-        return lupa.as_attrgetter(table)
+        return make_table(table)
     def _file_adaptor(file):
-        return dict(
+        return make_table(dict(
             type=file.content_type,
             filename=file.filename,
-            content=file.stream.read())
+            content=file.stream.read()))
     class adapted_request:
         form = _default_table(request.form)
         query = _default_table(request.args)
@@ -98,7 +90,7 @@ def adapt_request(request):
         port = 443 if request.is_secure else 80
         path = request.path
         headers = _default_table(request.headers)
-    return lupa.as_attrgetter(adapted_request.__dict__)
+    return adapted_request.__dict__
 
 
 def adapt_response(response):
