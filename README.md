@@ -29,8 +29,15 @@ Software wise, you need Git and the [Heroku Toolbelt](https://toolbelt.heroku.co
 Clone this repo to your machine.
 
 ### Edit the Mountfile
-The Mountfile lets you mount paths that point to public Github repos and
-Gists. 
+Airscript pulls script sources from public Github repos or Gists. Edit
+the Mountfile to point paths to any Gist or Github project URL. All
+files in the repo or Gist will be available under the mounted path.
+
+    <path>: <gist or repo url>
+
+Be sure to commit your edits.
+
+### Deploy to Heroku
 
 ## More Context
 

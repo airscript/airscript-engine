@@ -10,11 +10,11 @@ def _source_url(repo_url, path):
         raise RuntimeError("Mountfile URLs must be Github URLs for now")
     if 'gist.github.com' in repo_url:
         gist_id = repo_url.split('/')[-1]
-        return "https://gist.github.com/raw/{0}{1}".format(
+        return "https://gist.github.com/raw/{0}/{1}".format(
                 gist_id, path)
     elif 'github.com' in repo_url:
         base_url = repo_url.replace('github.com', 'raw.github.com')
-        return "{0}/master{1}".format(base_url, path)
+        return "{0}/master/{1}".format(base_url, path)
 
 def _make_view(repo_url):
     def _view(path):
