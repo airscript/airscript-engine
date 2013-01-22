@@ -3,15 +3,17 @@ from flask import Flask
 app = Flask(__name__)
 
 import lupa
+import requests
 
-@app.route("/")
-def hello():
+@app.route("/<path:path>")
+def hello(path):
     lua = lupa.LuaRuntime()
+    src = requests.get("https://gist.github.com/raw/{0}".format(path))
     app = lua.eval("""
 function()
-    return "Hello, World!"
+    {0}
 end
-""")
+""".format(src.text)
     return app()
 
 if __name__ == "__main__":
