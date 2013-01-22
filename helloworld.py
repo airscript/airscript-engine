@@ -7,6 +7,8 @@ import requests
 import collections
 import json
 
+import runtime
+
 class LuaEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, lupa._lupa._LuaTable):
@@ -19,13 +21,19 @@ def hello(path):
     src = requests.get("https://gist.github.com/raw/{0}".format(path))
     try:
         app = lua.eval("""
-function(request)
+function(globals)
+    for k, v in pairs(globals) do
+        _G[k] = v
+    end
     {0}
 end
 """.format(src.text))
     except:
         return "Bad source", 400
-    output = app(build_request(request))
+    globals = dict(
+            request=build_request(request),)
+    globals.update(runtime._export())
+    output = app(globals)
     print output
     return build_response(output)
 
@@ -55,7 +63,7 @@ def build_request(request):
         port = 443 if request.is_secure else 80
         path = request.path
         headers = _default_table(request.headers)
-    return _req.__dict__
+    return _req
 
 
 def build_response(resp):
