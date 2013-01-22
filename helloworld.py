@@ -22,7 +22,9 @@ function(request)
     {0}
 end
 """.format(src.text))
-    return build_response(app(build_request(request)))
+    output = app(build_request(request))
+    print output
+    return build_response(output)
 
 def build_request(request):
     def _default_table(input, filter=None):
