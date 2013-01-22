@@ -28,7 +28,7 @@ function(globals)
     end
     {0}
 end
-""".format(src.text))
+""".format(source))
     except:
         return "Bad source", 400
     
