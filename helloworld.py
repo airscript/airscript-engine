@@ -15,7 +15,7 @@ function(request)
     {0}
 end
 """.format(src.text))
-    query = collections.defaultdict(lambda: "")
+    query = collections.defaultdict(lambda: False)
     for k,v in request.args.items():
         query[k] = v
     req = dict(
