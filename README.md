@@ -10,7 +10,7 @@ scripts from Github that run as if they were on
 version of Webscript.
 
 The goal is to be fully compatible with Webscript, meaning you can
-expect the same environment as Webscript and even use both Webscript
+expect the [same environment as Webscript](https://www.webscript.io/documentation) and even use both Webscript
 maintained and 3rd party modules.
 
 There are plans to go beyond current Webscript functionality.
