@@ -4,15 +4,18 @@ import flask
 import lupa
 import requests
 
-from runtime import base64
-from runtime import json
+from runtime import base64_ as base64
+from runtime import json_ as json
 
 __all__ = """
 base64
 json
 """.split()
 
-lua = lupa.LuaRuntime()
+try:
+    lua = lupa.LuaRuntime()
+except:
+    pass # for local debugging without lupa
 
 def _export_globals():
     d = dict()
