@@ -28,30 +28,23 @@ def _export_globals():
         d[k] = globals()[k]
     return d
 
-def require(path):
-    def _eval(source):
-        return lua.eval("""
-function(source)
-    return loadstring(source)
-end
-""")(source)
-    webscript_lib = "https://raw.github.com/webscriptio/lib/master/{0}.lua"
-    builtin = requests.get(webscript_lib.format(path))
-    if builtin.status_code == 200:
-        return _eval(builtin.text)
-    user, repo, path = path.split('/', 2)
-    external_lib = "https://raw.github.com/{0}/{1}/master/{2}"
-    external = requests.get(external_lib.format(user, repo, path))
-    if external.status_code == 200:
-        return _eval(external.text)
-    raise RuntimeError( "unable to load lib")
-
 def run(request, source):
     try:
         app = lua.eval("""
 function(globals)
+    local function _tableize(userdata)
+        local t = {}
+        for k,v in python.iterex(userdata.items()) do
+            if type(v) == "userdata" then
+                t[k] = _tableize(v)
+            else
+                t[k] = v
+            end
+        end
+        return t
+    end
     for k,v in python.iterex(globals.items()) do
-        _G[k] = v
+        _G[k] = _tableize(v)
     end
     {0}
 end
@@ -61,7 +54,6 @@ end
     
     globals = _export_globals()
     globals['request'] = adapt_request(request)
-    #globals['require'] = require
     globals['require'] = lua.eval("""
 function(name) 
     return loadstring(http.load(name))()
@@ -79,7 +71,7 @@ def adapt_request(request):
                 table[k] = v
             else:
                 table[k] = filter(v)
-        return table
+        return lupa.as_attrgetter(table)
     def _file_adaptor(file):
         return dict(
             type=file.content_type,
@@ -87,7 +79,7 @@ def adapt_request(request):
             content=file.stream.read())
     class adapted_request:
         form = _default_table(request.form)
-        query2 = lupa.as_attrgetter(_default_table(request.args))
+        query = _default_table(request.args)
         querystring = request.query_string
         files = _default_table(request.files, _file_adaptor)
         body = request.data
