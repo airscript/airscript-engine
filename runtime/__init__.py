@@ -36,7 +36,7 @@ end
 """.format(source))
             return module()
         except Exception, e:
-            print e
+            raise e
             return {}
     webscript_lib = "https://raw.github.com/webscriptio/lib/master/{0}"
     builtin = requests.get(webscript_lib.format(path))
@@ -47,8 +47,7 @@ end
     external = requests.get(external_lib.format(user, repo, path))
     if external.status_code == 200:
         return _eval(external.text)
-    print "unable to load lib"
-    return {} 
+    raise RuntimeError( "unable to load lib")
 
 def run(request, source):
     try:
