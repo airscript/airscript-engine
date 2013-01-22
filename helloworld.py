@@ -15,7 +15,7 @@ function(request)
 end
 """.format(src.text))
     req = dict(
-        query=dict(request.query)
+        query=dict(request.args)
     )
     return app(req)
 
