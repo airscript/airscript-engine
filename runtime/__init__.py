@@ -35,7 +35,7 @@ function()
 end
 """.format(source))
             return module()
-        except e:
+        except Exception, e:
             print e
             return {}
     webscript_lib = "https://raw.github.com/webscriptio/lib/master/{0}"
