@@ -48,7 +48,11 @@ function(globals)
         end
     end
     for k,v in python.iterex(globals.items()) do
-        _G[k] = _tableize(v)
+        if k == "request" then
+            _G[k] = _tableize(v)
+        else
+            _G[k] = v
+        end
     end
     {0}
 end
