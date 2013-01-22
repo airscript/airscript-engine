@@ -17,11 +17,14 @@ class LuaEncoder(json.JSONEncoder):
 def hello(path):
     lua = lupa.LuaRuntime()
     src = requests.get("https://gist.github.com/raw/{0}".format(path))
-    app = lua.eval("""
+    try:
+        app = lua.eval("""
 function(request)
     {0}
 end
 """.format(src.text))
+    except:
+        return "Bad source", 400
     output = app(build_request(request))
     print output
     return build_response(output)
@@ -63,7 +66,7 @@ def build_response(resp):
     body = ""
     body_set = False
     def is_mapping(value):
-        return isinstance(value, lupa._lupa._LuaTable) or isinstnace(value, dict)
+        return isinstance(value, lupa._lupa._LuaTable) or isinstance(value, dict)
     for value in resp:
         if isinstance(value, basestring):
             body = value
