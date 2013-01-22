@@ -21,9 +21,9 @@ def hello(path):
     src = requests.get("https://gist.github.com/raw/{0}".format(path))
     try:
         app = lua.eval("""
-function(globals)
-    for k, v in pairs(globals) do
-        _G[k] = v
+function(g_data, g_keys)
+    for k in g_keys do
+        _G[k] = g_data[k]
     end
     {0}
 end
@@ -33,7 +33,7 @@ end
     globals = dict(
             request=build_request(request),)
     globals.update(runtime._export())
-    output = app(globals)
+    output = app(globals, globals.keys())
     print output
     return build_response(output)
 
