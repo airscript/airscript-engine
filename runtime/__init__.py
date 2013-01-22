@@ -9,10 +9,12 @@ import requests
 
 from runtime import base64
 from runtime import json
+from runtime import http
 
 __all__ = """
 base64
 json
+http
 """.split()
 
 try:
