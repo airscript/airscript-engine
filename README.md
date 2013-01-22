@@ -42,7 +42,7 @@ Example:
 Be sure to commit your edits.
 
 ### Deploy to Heroku
-From the project directory:
+From the project directory, run this helper script:
 
     $ ./deploy [name]
 
