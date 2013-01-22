@@ -1,11 +1,8 @@
 import os
-from flask import Flask, request, make_response
+from flask import Flask, request
 app = Flask(__name__)
 
-import lupa
 import requests
-import collections
-import json
 
 import runtime
 
