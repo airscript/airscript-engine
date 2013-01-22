@@ -14,10 +14,10 @@ function(request)
     {0}
 end
 """.format(src.text))
-    request = dict(
+    req = dict(
         query=dict(request.query)
     )
-    return app(request)
+    return app(req)
 
 if __name__ == "__main__":
     app.run('0.0.0.0', int(os.environ.get("PORT", 5000)), debug=True)
