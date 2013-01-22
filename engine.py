@@ -20,6 +20,7 @@ def _make_view(repo_url):
     def _view(path):
         source = requests.get(_source_url(repo_url, path))
         return runtime.run(flask.request, source.text)
+    return _view
 
 if __name__ == "__main__":
     app = flask.Flask(__name__)

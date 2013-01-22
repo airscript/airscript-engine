@@ -23,7 +23,14 @@ First you need a Github account and a Heroku account. Both are free! [Sign up fo
 
 Software wise, you need Git and the [Heroku Toolbelt](https://toolbelt.heroku.com/).
 
-## 
+## Getting Started
+
+### Get the source
+Clone this repo to your machine.
+
+### Edit the Mountfile
+The Mountfile lets you mount paths that point to public Github repos and
+Gists. 
 
 ## More Context
 
