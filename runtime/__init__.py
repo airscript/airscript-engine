@@ -32,12 +32,12 @@ def run(request, source):
     try:
         app = lua.eval("""
 function(globals)
-    local function _tableize(userdata)
+    local function _tableize(userdata, deeper)
         if type(userdata) == "userdata" then
             local t = {{}}
             for k,v in python.iterex(userdata.items()) do
-                if type(v) == "userdata" then
-                    t[k] = _tableize(v)
+                if type(v) == "userdata" and deeper then
+                    t[k] = _tableize(v, false)
                 else
                     t[k] = v
                 end
@@ -49,7 +49,7 @@ function(globals)
     end
     for k,v in python.iterex(globals.items()) do
         if k == "request" then
-            _G[k] = _tableize(v)
+            _G[k] = _tableize(v, true)
         else
             _G[k] = v
         end
@@ -73,8 +73,8 @@ end""")
 def adapt_request(request):
     """ builds a request object for lua from a flask request """
     def _default_table(input, filter=None):
-        """ converts mapping to lua table w/o key errors """
-        table = collections.defaultdict(lambda: False)
+        """ converts mapping to lua table """
+        table = {}
         for k,v in input.items():
             if filter is None:
                 table[k] = v
@@ -98,7 +98,7 @@ def adapt_request(request):
         port = 443 if request.is_secure else 80
         path = request.path
         headers = _default_table(request.headers)
-    return lupa.as_attrgetter(adapted_request.__dict__)
+    return adapted_request.__dict__
 
 
 def adapt_response(response):
