@@ -2,6 +2,7 @@ import collections
 
 import flask
 import lupa
+import requests
 
 from runtime import base64
 from runtime import json
@@ -11,15 +12,37 @@ base64
 json
 """.split()
 
+lua = lupa.LuaRuntime()
+
 def _export_globals():
     d = dict()
     for k in __all__:
         d[k] = globals()[k]
     return d
 
-def run(request, source):
-    lua = lupa.LuaRuntime()
+def require(path):
+    def _eval(source):
+        try:
+            module = lua.eval("""
+function()
+    {0}
+end
+""".format(source))
+            return module()
+        except:
+            return {}
+    webscript_lib = "https://raw.github.com/webscriptio/lib/master/{0}"
+    builtin = requests.get(webscript_lib.format(path))
+    if builtin.status_code == 200:
+        return _eval(builtin.text)
+    user, repo, path = path.split('/', 2)
+    external_lib = "https://raw.github.com/{0}/{1}/master/{2}"
+    external = requests.get(external_lib.format(user, repo, path))
+    if external.status_code == 200:
+        return _eval(external.text)
+    return {} 
 
+def run(request, source):
     try:
         app = lua.eval("""
 function(globals)
@@ -34,6 +57,7 @@ end
     
     globals = _export_globals()
     globals['request'] = adapt_request(request)
+    globals['require'] = require
     return adapt_response(
         app(lupa.as_attrgetter(globals)))
 

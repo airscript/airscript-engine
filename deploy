@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+[[ $(git remote | grep heroku) ]] || heroku create --buildpack https://github.com/airscript/heroku-buildpack-airscript $1
+git push heroku master

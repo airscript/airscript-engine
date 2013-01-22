@@ -4,7 +4,7 @@ Lightweight scripts in the cloud
 
 ### Warning: Proof of concept made in less than 12 hours!
 
-This is an app to be deployed on Heroku that will let you run Lua
+This is a Python app to be deployed on Heroku that will let you run Lua
 scripts from Github that run as if they were on
 [Webscript](http://webscript.io). This effectively gives you a free
 version of Webscript.
@@ -35,9 +35,39 @@ files in the repo or Gist will be available under the mounted path.
 
     <path>: <gist or repo url>
 
+Example:
+
+    /: https://gist.github.com/7c74508c98c245c94311
+    
 Be sure to commit your edits.
 
 ### Deploy to Heroku
+From the project directory:
+
+    $ ./deploy [name]
+
+It will create a Heroku URL with your optional name as the subdomain. If
+you used the example mount, you can now go to:
+
+    http://[name].herokuapp.com/test?name=John 
+
+### Add / Edit Your Scripts Live!
+Just edit your scripts from Github or clone them locally to edit.
+Pushing to Github will update the source used by the Airscript engine.
+
+For now, read the [Webscript Documentation](https://www.webscript.io/documentation) for details on the Lua environment.
+
+The only time you have to redeploy is if you update the engine code or
+change your Mountfile.
+
+## Webscript Parity Status
+Here's what works now:
+
+* Request/Response model
+* json module
+* base64 module
+
+Those were just easy to implement from Python's standard library. More soon...
 
 ## More Context
 
@@ -48,6 +78,10 @@ fully develop. Eventually it went defunct. Some years later, Webscript comes out
 savior. However, their "business model" holds their product back. 
 
 Airscript is intentionally riding on their environment to bootstrap an open and free alternative that may someday fulfill the original dream of Scriptlets.
+
+## Contribution
+
+Would love to have collaborators join to help with big plans for this project. Check out Issues for ideas on how you can help.
 
 ## License
 
