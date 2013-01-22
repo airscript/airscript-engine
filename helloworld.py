@@ -62,17 +62,19 @@ def build_response(resp):
     headers = {"Content-Type": "text/plain"}
     body = ""
     body_set = False
+    def is_mapping(value):
+        return isinstance(value, lupa._lupa._LuaTable) or isinstnace(value, dict)
     for value in resp:
         if isinstance(value, basestring):
             body = value
             body_set = True
         elif isinstance(value, int):
             status = value
-        elif not body_set and isinstance(value, lupa._lupa._LuaTable):
+        elif not body_set and is_mapping(value):
             body = json.dumps(value, cls=LuaEncoder)
             headers['Content-Type'] = 'application/json'
             body_set = True
-        elif body_set and isinstance(value, lupa._lupa._LuaTable):
+        elif body_set and is_mapping(value):
             for header in value:
                 headers[header] = value[header]
     return make_response(body, status, headers)
