@@ -63,7 +63,7 @@ def build_request(request):
         port = 443 if request.is_secure else 80
         path = request.path
         headers = _default_table(request.headers)
-    return _req
+    return _req.__dict__
 
 
 def build_response(resp):
