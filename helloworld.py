@@ -13,7 +13,7 @@ def hello(path):
 function()
     {0}
 end
-""".format(src.text)
+""".format(src.text))
     return app()
 
 if __name__ == "__main__":
