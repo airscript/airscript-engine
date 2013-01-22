@@ -67,7 +67,7 @@ end
     globals = _export_globals()
     globals['request'] = adapt_request(request)
     globals['require'] = lua.eval("""function(name)
-    return loadstring(http.request({url="https://raw.github.com/webscriptio/lib/master/" .. name .. ".lua"}))()
+    return loadstring(http.request({url="https://raw.github.com/webscriptio/lib/master/" .. name .. ".lua"}).content)()
 end
 """)
     return adapt_response(
