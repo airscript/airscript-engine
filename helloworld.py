@@ -7,6 +7,12 @@ import requests
 import collections
 import json
 
+class LuaEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, lupa._lupa._LuaTable):
+            return dict(obj)
+        return json.JSONEncoder.default(self, obj)
+
 @app.route("/<path:path>")
 def hello(path):
     lua = lupa.LuaRuntime()
@@ -38,7 +44,7 @@ def build_response(resp):
         elif isinstance(value, int):
             status = value
         elif not body_set and isinstance(value, lupa._lupa._LuaTable):
-            body = json.dumps(value)
+            body = json.dumps(value, cls=LuaEncoder)
             headers['Content-Type'] = 'application/json'
             body_set = True
         elif body_set and isinstance(value, lupa._lupa._LuaTable):
