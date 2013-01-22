@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, request
 app = Flask(__name__)
 
 import lupa
@@ -10,11 +10,14 @@ def hello(path):
     lua = lupa.LuaRuntime()
     src = requests.get("https://gist.github.com/raw/{0}".format(path))
     app = lua.eval("""
-function()
+function(request)
     {0}
 end
 """.format(src.text))
-    return app()
+    request = dict(
+        query=dict(request.query)
+    )
+    return app(request)
 
 if __name__ == "__main__":
     app.run('0.0.0.0', int(os.environ.get("PORT", 5000)), debug=True)
