@@ -49,8 +49,9 @@ function(globals)
     {0}
 end
 """.format(source))
-    except:
-        return "Bad source", 400
+    except Exception, e:
+        raise e
+        #return "Bad source", 400
     
     globals = _export_globals()
     globals['request'] = adapt_request(request)
