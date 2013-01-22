@@ -53,7 +53,7 @@ def adapt_request(request):
             type=file.content_type,
             filename=file.filename,
             content=file.stream.read())
-    class adatped_request:
+    class adapted_request:
         form = _default_table(request.form)
         query = _default_table(request.args)
         querystring = request.query_string
