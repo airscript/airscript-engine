@@ -4,6 +4,7 @@ app = Flask(__name__)
 
 import lupa
 import requests
+import collections
 
 @app.route("/<path:path>")
 def hello(path):
@@ -14,8 +15,11 @@ function(request)
     {0}
 end
 """.format(src.text))
+    query = collections.defaultdict(lambda: None)
+    for k,v in request.args.items():
+        query[k] = v
     req = dict(
-        query=dict(request.args)
+        query=query
     )
     return app(req)
 
