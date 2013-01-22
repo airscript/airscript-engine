@@ -15,7 +15,15 @@ maintained and 3rd party modules.
 
 There are plans to go beyond current Webscript functionality.
 Airscript will someday support different language runtimes. JavaScript
-is first on the list. 
+is first on the list.
+
+## Requirements
+
+First you need a Github account and a Heroku account. Both are free! [Sign up for Heroku.](https://api.heroku.com/signup) [Sign up for Github.](https://github.com/)
+
+Software wise, you need Git and the [Heroku Toolbelt](https://toolbelt.heroku.com/).
+
+## 
 
 ## More Context
 

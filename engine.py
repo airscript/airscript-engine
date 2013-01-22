@@ -3,7 +3,7 @@ import os
 import flask
 import requests
 
-import .runtime
+import runtime
 
 def _source_url(repo_url, path):
     if not 'github.com' in repo_url:
