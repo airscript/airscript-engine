@@ -30,17 +30,12 @@ def _export_globals():
 
 def require(path):
     def _eval(source):
-        try:
-            module = lua.eval("""
-function()
-    {0}
+        return lua.eval("""
+function(source)
+    return loadstring(source)
 end
-""".format(source))
-            return module()
-        except Exception, e:
-            raise e
-            return {}
-    webscript_lib = "https://raw.github.com/webscriptio/lib/master/{0}"
+""")(source)
+    webscript_lib = "https://raw.github.com/webscriptio/lib/master/{0}.lua"
     builtin = requests.get(webscript_lib.format(path))
     if builtin.status_code == 200:
         return _eval(builtin.text)
@@ -66,10 +61,11 @@ end
     
     globals = _export_globals()
     globals['request'] = adapt_request(request)
-    globals['require'] = lua.eval("""function(name)
-    return loadstring(http.request({url="https://raw.github.com/webscriptio/lib/master/" .. name .. ".lua"}).content)()
-end
-""")
+    globals['require'] = require
+    #globals['require'] = lua.eval("""function(name)
+    #return loadstring(http.request({url="https://raw.github.com/webscriptio/lib/master/" .. name .. ".lua"}).content)()
+#end
+#""")
     return adapt_response(
         app(lupa.as_attrgetter(globals)))
 
