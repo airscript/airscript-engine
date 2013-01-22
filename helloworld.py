@@ -22,8 +22,8 @@ def hello(path):
     try:
         app = lua.eval("""
 function(g_data, g_keys)
-    for k in g_keys do
-        _G[k] = g_data[k]
+    for k,v in pairs(g_data) do
+        _G[k] = v
     end
     {0}
 end
@@ -32,7 +32,7 @@ end
         return "Bad source", 400
     globals = dict(
             request=build_request(request),)
-    globals.update(runtime._export())
+    #globals.update(runtime._export())
     output = app(globals, globals.keys())
     print output
     return build_response(output)
