@@ -22,13 +22,36 @@ function(request)
     {0}
 end
 """.format(src.text))
-    query = collections.defaultdict(lambda: False)
-    for k,v in request.args.items():
-        query[k] = v
-    req = dict(
-        query=query
-    )
-    return build_response(app(req))
+    return build_response(app(build_request(request)))
+
+def build_request(request):
+    def _default_table(input, filter=None):
+        table = collections.defaultdict(lambda: False)
+        for k,v in input.items():
+            if filter is None:
+                table[k] = v
+            else:
+                table[k] = filter(v)
+        return table
+    def _file(file):
+        return dict(
+            type=file.content_type,
+            filename=file.filename,
+            content=file.stream.read())
+    class _req:
+        form = _default_table(request.form)
+        query = _default_table(request.args)
+        querystring = request.query_string
+        files = _default_table(request.files, _file)
+        body = request.data
+        method = request.method
+        remote_addr = request.remote_addr
+        scheme = request.scheme
+        port = 443 if request.is_secure else 80
+        path = request.path
+        headers = _default_table(request.headers)
+    return _req
+
 
 def build_response(resp):
     if not isinstance(resp, tuple):
