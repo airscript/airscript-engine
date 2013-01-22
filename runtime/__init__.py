@@ -98,7 +98,7 @@ def adapt_request(request):
         port = 443 if request.is_secure else 80
         path = request.path
         headers = _default_table(request.headers)
-    return adapted_request.__dict__
+    return lupa.as_attrgetter(adapted_request.__dict__)
 
 
 def adapt_response(response):
