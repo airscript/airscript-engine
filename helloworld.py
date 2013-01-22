@@ -32,7 +32,7 @@ def build_response(resp):
     body = ""
     body_set = False
     for value in resp:
-        if isinstance(value, str):
+        if isinstance(value, basestring):
             body = value
             body_set = True
         elif isinstance(value, int):
@@ -44,10 +44,7 @@ def build_response(resp):
         elif body_set and isinstance(value, dict):
             for header in value:
                 headers[header] = value[header]
-    response = make_response(body, status)
-    for header in headers:
-        response.headers[header] = headers[header]
-    return response
+    return make_response(body, status, headers)
 
 if __name__ == "__main__":
     app.run('0.0.0.0', int(os.environ.get("PORT", 5000)), debug=True)
