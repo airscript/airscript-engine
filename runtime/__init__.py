@@ -91,7 +91,7 @@ def adapt_request(request):
             content=file.stream.read())
     class adapted_request:
         form = _default_table(request.form)
-        query = _default_table(request.args)
+        query2 = lupa.as_attrgetter(_default_table(request.args))
         querystring = request.query_string
         files = _default_table(request.files, _file_adaptor)
         body = request.data
