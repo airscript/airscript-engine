@@ -21,8 +21,8 @@ def hello(path):
     src = requests.get("https://gist.github.com/raw/{0}".format(path))
     try:
         app = lua.eval("""
-function(g_data, g_keys)
-    for k,v in pairs(g_data) do
+function(globals)
+    for k,v in python.iterex(globals.items()) do
         _G[k] = v
     end
     {0}
@@ -32,8 +32,8 @@ end
         return "Bad source", 400
     globals = dict(
             request=build_request(request),)
-    #globals.update(runtime._export())
-    output = app(globals, globals.keys())
+    globals.update(runtime._export())
+    output = app(lupa.as_attrgetter(globals))
     print output
     return build_response(output)
 
