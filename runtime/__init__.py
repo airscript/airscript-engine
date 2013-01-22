@@ -33,7 +33,7 @@ def run(request, source):
         app = lua.eval("""
 function(globals)
     local function _tableize(userdata)
-        local t = {}
+        local t = \{\}
         for k,v in python.iterex(userdata.items()) do
             if type(v) == "userdata" then
                 t[k] = _tableize(v)
