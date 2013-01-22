@@ -25,6 +25,8 @@ end
     return build_response(app(req))
 
 def build_response(resp):
+    if not isinstance(resp, list):
+        resp = [resp]
     status = 200
     headers = {"Content-Type": "text/plain"}
     body = ""
