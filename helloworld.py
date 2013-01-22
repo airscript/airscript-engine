@@ -25,8 +25,8 @@ end
     return build_response(app(req))
 
 def build_response(resp):
-    if not isinstance(resp, list):
-        resp = [resp]
+    if not isinstance(resp, tuple):
+        resp = (resp,)
     status = 200
     headers = {"Content-Type": "text/plain"}
     body = ""
@@ -37,11 +37,11 @@ def build_response(resp):
             body_set = True
         elif isinstance(value, int):
             status = value
-        elif not body_set and isinstance(value, dict):
+        elif not body_set and isinstance(value, lupa._lupa._LuaTable):
             body = json.dumps(value)
             headers['Content-Type'] = 'application/json'
             body_set = True
-        elif body_set and isinstance(value, dict):
+        elif body_set and isinstance(value, lupa._lupa._LuaTable):
             for header in value:
                 headers[header] = value[header]
     return make_response(body, status, headers)
