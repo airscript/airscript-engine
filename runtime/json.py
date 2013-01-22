@@ -1,6 +1,8 @@
 from __future__ import absolute_import
 import json
 
+import lupa
+
 class LuaEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, lupa._lupa._LuaTable):
