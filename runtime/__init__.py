@@ -61,11 +61,11 @@ end
     
     globals = _export_globals()
     globals['request'] = adapt_request(request)
-    globals['require'] = require
-    #globals['require'] = lua.eval("""function(name)
-    #return loadstring(http.request({url="https://raw.github.com/webscriptio/lib/master/" .. name .. ".lua"}).content)()
-#end
-#""")
+    #globals['require'] = require
+    globals['require'] = lua.eval("""
+function(name) return
+    loadstring(http.load(name))
+end""")
     return adapt_response(
         app(lupa.as_attrgetter(globals)))
 
