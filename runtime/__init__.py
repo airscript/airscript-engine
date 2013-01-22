@@ -1,11 +1,12 @@
 import collections
 
 import flask
+import json as json_
 import lupa
 import requests
 
-from runtime import base64_ as base64
-from runtime import json_ as json
+from runtime import base64
+from runtime import json
 
 __all__ = """
 base64
@@ -113,7 +114,7 @@ def adapt_response(response):
         elif isinstance(value, int):
             status = value
         elif not body_set and _is_mapping(value):
-            body = json.dumps(value, cls=json.LuaEncoder)
+            body = json_.dumps(value, cls=json.LuaEncoder)
             headers['Content-Type'] = 'application/json'
             body_set = True
         elif body_set and _is_mapping(value):
