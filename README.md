@@ -1,6 +1,6 @@
-# airscript-engine
+# Airscript
 
-Lightweight scripts in the cloud
+Lightweight web scripts in the cloud
 
 ### Warning: Proof of concept made in less than 12 hours! Not final form!
 
@@ -19,9 +19,12 @@ is first on the list.
 
 ## Requirements
 
-First you need a Github account and a Heroku account. Both are free! [Sign up for Heroku.](https://api.heroku.com/signup) [Sign up for Github.](https://github.com/)
+You need a Github account and a Heroku account. Both are free! 
 
-Software wise, you need Git and the [Heroku Toolbelt](https://toolbelt.heroku.com/).
+ * [Sign up for Heroku](https://api.heroku.com/signup) 
+ * [Sign up for Github](https://github.com/)
+
+Otherwise, you just need Git and the [Heroku Toolbelt](https://toolbelt.heroku.com/).
 
 ## Getting Started
 
@@ -38,6 +41,7 @@ files in the repo or Gist will be available under the mounted path.
 Example:
 
     /: https://gist.github.com/7c74508c98c245c94311
+    /progrium: https://github.com/progrium/my-scripts
     
 Be sure to commit your edits.
 
@@ -49,7 +53,7 @@ From the project directory, run this helper script:
 It will create a Heroku URL with your optional name as the subdomain. If
 you used the example mount, you can now go to:
 
-    http://[name].herokuapp.com/test?name=John 
+    http://<name>.herokuapp.com/test?name=John 
 
 ### Add / Edit Your Scripts Live!
 Just edit your scripts from Github or clone them locally to edit.
@@ -66,8 +70,10 @@ Here's what works now:
 * Request/Response model
 * json module
 * base64 module
+* http module
+* require mostly works
 
-Those were just easy to implement from Python's standard library. More soon...
+More coming soon...
 
 ## More Context
 
@@ -81,7 +87,7 @@ Airscript is intentionally riding on their environment to bootstrap an open and 
 
 ## Contribution
 
-Would love to have collaborators join to help with big plans for this project. Check out Issues for ideas on how you can help.
+I would love to have collaborators join to help with big plans for this project. Check out Issues for ideas on how you can help, or [email me](mailto:progrium@gmail.com).
 
 ## License
 
