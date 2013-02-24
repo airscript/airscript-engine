@@ -7,7 +7,7 @@ def request(T):
             params=T['params'],
             data=T['data'],
             headers=T['headers'],
-            auth=T.['auth'])
+            auth=T['auth'])
     return {
         'content': res.text, 
         'statuscode': res.status_code, 
