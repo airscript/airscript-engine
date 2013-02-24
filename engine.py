@@ -30,6 +30,7 @@ if __name__ == "__main__":
             mount_path, repo_url = mount.strip().split(':', 1)
             app.add_url_rule(
                 "{0}<path:path>".format(mount_path),
-                view_func=_make_view(repo_url.strip())) 
+                view_func=_make_view(repo_url.strip()),
+                methods=['GET','OPTIONS','POST','PUT','DELETE']) 
 
     app.run('0.0.0.0', int(os.environ.get("PORT", 5000)), debug=True)
