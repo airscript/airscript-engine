@@ -10,11 +10,13 @@ import requests
 from runtime import base64
 from runtime import json
 from runtime import http
+from runtime import mail
 
 __all__ = """
 base64
 json
 http
+mail
 """.split()
 
 try:
