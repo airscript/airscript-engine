@@ -13,10 +13,10 @@ def send(T):
     params = {
         'api_user': os.environ.get('SENDGRID_USERNAME'),
         'api_key': os.environ.get('SENDGRID_PASSWORD'),
-        'to': T.get('to'),
-        'subject': T.get('subject'),
-        'text': T.get('text'),
-        'from': T.get('from'),
+        'to': T['to'],
+        'subject': T['subject'],
+        'text': T['text'],
+        'from': T['from'],
     }
     requests.post(url, params=params)
 

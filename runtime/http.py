@@ -3,11 +3,11 @@ import requests
 def request(T):
     res = requests.request(
             url=T['url'],
-            method=T.get('method', 'GET'),
-            params=T.get('params'),
-            data=T.get('data'),
-            headers=T.get('headers'),
-            auth=T.get('auth'))
+            method=T['method'] or 'GET',
+            params=T['params'],
+            data=T['data'],
+            headers=T['headers'],
+            auth=T.['auth'])
     return {
         'content': res.text, 
         'statuscode': res.status_code, 
